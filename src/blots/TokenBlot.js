@@ -1,0 +1,33 @@
+import Quill from "quill";
+
+const Embed = Quill.import("blots/embed");
+
+class TokenBlot extends Embed {
+  static blotName = "placeholder-token";
+  static tagName = "span";
+  static className = "token";
+
+  static create({ title, slug, id }) {
+    let node = super.create();
+    node.textContent = title;
+    node.dataset.title = title;
+    node.dataset.slug = slug;
+    node.dataset.id = id;
+    return node;
+  }
+
+  static value(node) {
+    return node.dataset;
+  }
+
+  html() {
+    const { slug, id } = this.value();
+    return `{{${slug}|${id}}}`;
+  }
+
+  length() {
+    return 1;
+  }
+}
+
+export default TokenBlot;
