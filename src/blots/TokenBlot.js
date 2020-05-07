@@ -20,11 +20,6 @@ class TokenBlot extends Embed {
     return node.dataset;
   }
 
-  html() {
-    const { slug, id } = this.value();
-    return `{{${slug}|${id}}}`;
-  }
-
   length() {
     return 1;
   }
