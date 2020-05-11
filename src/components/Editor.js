@@ -56,6 +56,7 @@ const Editor = ({ value, onChange }) => {
 
       // Get the index of the native insertion point.
       // Drag events do not update Quill's selection so it must be calculated manually.
+      // Cribbed from: https://github.com/kensnyder/quill-image-drop-module
       if (document.caretRangeFromPoint) {
         const selection = document.getSelection();
         const range = document.caretRangeFromPoint(

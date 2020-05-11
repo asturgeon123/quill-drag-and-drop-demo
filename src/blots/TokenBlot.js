@@ -10,6 +10,7 @@ class TokenBlot extends Embed {
   static create({ title, slug, id }) {
     let node = super.create();
     node.textContent = title;
+    node.setAttribute("contenteditable", "false");
     node.dataset.title = title;
     node.dataset.slug = slug;
     node.dataset.id = id;
