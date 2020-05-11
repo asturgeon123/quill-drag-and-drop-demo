@@ -2,8 +2,10 @@ import Quill from "quill";
 
 const Embed = Quill.import("blots/embed");
 
-class TokenBlot extends Embed {
-  static blotName = "placeholder-token";
+export const TOKEN_BLOT_ID = "placeholder-token";
+
+export default class TokenBlot extends Embed {
+  static blotName = TOKEN_BLOT_ID;
   static tagName = "span";
   static className = "token";
 
@@ -25,5 +27,3 @@ class TokenBlot extends Embed {
     return 1;
   }
 }
-
-export default TokenBlot;

@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import Quill from "quill";
-import TokenBlot from "../blots/TokenBlot";
-import "quill/dist/quill.snow.css";
-
-Quill.register(TokenBlot);
+import { TOKEN_BLOT_ID } from "../quill/TokenBlot";
+import { TOKEN_MODULE_NAME } from "../quill/TokenDrop";
 
 const CONFIG = {
-  formats: ["bold", "italic", "placeholder-token"],
+  formats: ["bold", "italic", TOKEN_BLOT_ID],
   modules: {
-    toolbar: [["bold", "italic"]]
+    toolbar: [["bold", "italic"]],
+    [TOKEN_MODULE_NAME]: true
   },
   theme: "snow"
 };
@@ -43,47 +42,7 @@ const Editor = ({ value, onChange }) => {
     }
   };
 
-  const onDrop = event => {
-    const tokenData = event.dataTransfer.getData(
-      "application/vnd.placeholder.token"
-    );
-
-    // If the dropped item is a placeholder token AND a Quill instance is initialized:
-    // - Call `preventDefault()` to prevent the token's raw text from being added to the editor.
-    // - Use the Quill API to add a token embed into the editor.
-    if (tokenData && editor) {
-      event.preventDefault();
-
-      // Get the index of the native insertion point.
-      // Drag events do not update Quill's selection so it must be calculated manually.
-      // Cribbed from: https://github.com/kensnyder/quill-image-drop-module
-      if (document.caretRangeFromPoint) {
-        const selection = document.getSelection();
-        const range = document.caretRangeFromPoint(
-          event.clientX,
-          event.clientY
-        );
-        if (selection && range) {
-          selection.setBaseAndExtent(
-            range.startContainer,
-            range.startOffset,
-            range.startContainer,
-            range.startOffset
-          );
-        }
-      }
-      const index = (editor.getSelection() || {}).index || editor.getLength();
-
-      // 1. Insert the placeholder token at the insertion point.
-      // 2. Then insert a space.
-      // 3. Update the insertion point to be after the token and space.
-      editor.insertEmbed(index, "placeholder-token", JSON.parse(tokenData));
-      editor.insertText(index + 1, " ");
-      editor.setSelection(editor.getSelection().index + 2);
-    }
-  };
-
-  return <div ref={onMount} onDrop={onDrop} style={{ height: 200 }} />;
+  return <div ref={onMount} style={{ height: 200 }} />;
 };
 
 export default Editor;

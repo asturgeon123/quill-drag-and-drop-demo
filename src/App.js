@@ -2,6 +2,16 @@ import React, { useState } from "react";
 import Token from "./components/Token";
 import Editor from "./components/Editor";
 
+import Quill from "quill";
+import TokenBlot from "./quill/TokenBlot";
+import TokenDrop, { TOKEN_MODULE_NAME } from "./quill/TokenDrop";
+import "quill/dist/quill.snow.css";
+
+// Regisger the token embed and the drap-drop module with the Quill library,
+// so that they are available to any Quill instance.
+Quill.register(TokenBlot);
+Quill.register(`modules/${TOKEN_MODULE_NAME}`, TokenDrop);
+
 function App() {
   const [html, setHtml] = useState(
     "<p>The <strong>quick brown fox</strong> jumps over the <em>lazy dog</em>.</p>"
