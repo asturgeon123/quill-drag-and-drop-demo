@@ -1,6 +1,7 @@
 import Parchment from "parchment";
 
 import TokenBlot from "./TokenBlot";
+import insertToken from "./insertToken";
 
 export const TOKEN_MODULE_NAME = "token-drop";
 
@@ -45,14 +46,7 @@ export default class TokenDrop {
           );
         }
       }
-      const index = (quill.getSelection() || {}).index || quill.getLength();
-
-      // 1. Insert the placeholder token at the insertion point.
-      // 2. Then insert a space.
-      // 3. Update the insertion point to be after the token and space.
-      quill.insertEmbed(index, TokenBlot.blotName, JSON.parse(tokenData));
-      quill.insertText(index + 1, " ");
-      quill.setSelection(quill.getSelection().index + 2);
+      insertToken(quill, JSON.parse(tokenData));
     }
   }
 

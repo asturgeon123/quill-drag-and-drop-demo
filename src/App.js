@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Token from "./components/Token";
 import Editor from "./components/Editor";
 
@@ -13,22 +13,40 @@ Quill.register(TokenBlot);
 Quill.register(`modules/${TOKEN_MODULE_NAME}`, TokenDrop);
 
 function App() {
+  const quillRef = useRef(null);
+
   const [html, setHtml] = useState(
     "<p>The <strong>quick brown fox</strong> jumps over the <em>lazy dog</em>.</p>"
   );
+
   return (
     <div id="app">
       <aside>
         <h1>Tokens</h1>
         <ul className="token-list">
           <li>
-            <Token title="first name" slug="first_name" id="123" />
+            <Token
+              title="first name"
+              slug="first_name"
+              id="123"
+              quillRef={quillRef}
+            />
           </li>
           <li>
-            <Token title="last name" slug="last_name" id="456" />
+            <Token
+              title="last name"
+              slug="last_name"
+              id="456"
+              quillRef={quillRef}
+            />
           </li>
           <li>
-            <Token title="email address" slug="email" id="789" />
+            <Token
+              title="email address"
+              slug="email"
+              id="789"
+              quillRef={quillRef}
+            />
           </li>
         </ul>
       </aside>
@@ -38,7 +56,7 @@ function App() {
           Note: only <strong>bold</strong>, <strong>italic</strong>, and{" "}
           <strong>tokens</strong> are enabled.
         </p>
-        <Editor value={html} onChange={setHtml} />
+        <Editor value={html} onChange={setHtml} quillRef={quillRef} />
         <h1>Output</h1>
         <div id="result">{html}</div>
       </section>

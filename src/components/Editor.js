@@ -12,7 +12,7 @@ const CONFIG = {
   theme: "snow"
 };
 
-const Editor = ({ value, onChange }) => {
+const Editor = ({ value, onChange, quillRef }) => {
   const [editor, setEditor] = useState(null);
 
   // Replace the token nodes with placeholder syntax text.
@@ -39,6 +39,7 @@ const Editor = ({ value, onChange }) => {
       const quill = new Quill(container, CONFIG);
       quill.on("text-change", () => onValueChange(quill.root.innerHTML));
       setEditor(quill);
+      quillRef.current = quill;
     }
   };
 
