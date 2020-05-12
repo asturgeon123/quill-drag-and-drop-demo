@@ -44,6 +44,10 @@ section {
   user-select: none;
 }
 
+.token::selection {
+  color: red;
+}
+
 /*
   Required for clicked token to be recognized by Parchment.
   If a child element receives the click, Parchment is unable to find the clicked embed.

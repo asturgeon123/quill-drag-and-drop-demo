@@ -1,6 +1,6 @@
 import Parchment from "parchment";
 
-import { TOKEN_BLOT_ID } from "./TokenBlot";
+import TokenBlot, { TOKEN_BLOT_ID } from "./TokenBlot";
 
 export const TOKEN_MODULE_NAME = "token-drop";
 
@@ -56,9 +56,7 @@ export default class TokenDrop {
 
   onClick(event) {
     const token = Parchment.find(event.target);
-    console.log("TARGET", event.target);
-    console.log("token", token);
-    if (token instanceof TokenDrop) {
+    if (token instanceof TokenBlot) {
       this.quill.setSelection(token.offset(this.quill.scroll), 1, "user");
     }
   }
