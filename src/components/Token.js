@@ -1,4 +1,7 @@
 import React from "react";
+import TokenBlot from "../quill/TokenBlot";
+
+const TAG = TokenBlot.tagName.toLowerCase();
 
 const Token = ({ title, slug, id }) => {
   const onDragStart = event => {
@@ -7,10 +10,15 @@ const Token = ({ title, slug, id }) => {
     event.dataTransfer.setData("text/plain", text);
     event.dataTransfer.setData("application/vnd.placeholder.token", json);
   };
+
   return (
-    <span className="token" draggable="true" onDragStart={onDragStart}>
+    <TAG
+      className={TokenBlot.className}
+      draggable="true"
+      onDragStart={onDragStart}
+    >
       {title}
-    </span>
+    </TAG>
   );
 };
 

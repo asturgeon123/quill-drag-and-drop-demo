@@ -1,6 +1,6 @@
 import Parchment from "parchment";
 
-import TokenBlot, { TOKEN_BLOT_ID } from "./TokenBlot";
+import TokenBlot from "./TokenBlot";
 
 export const TOKEN_MODULE_NAME = "token-drop";
 
@@ -9,8 +9,10 @@ export default class TokenDrop {
     this.quill = quill;
     this.onDrop = this.onDrop.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onSelectionChange = this.onSelectionChange.bind(this);
     this.quill.root.addEventListener("drop", this.onDrop, false);
     this.quill.root.addEventListener("click", this.onClick, false);
+    this.quill.on("selection-change", this.onSelectionChange);
   }
 
   onDrop(event) {
@@ -48,7 +50,7 @@ export default class TokenDrop {
       // 1. Insert the placeholder token at the insertion point.
       // 2. Then insert a space.
       // 3. Update the insertion point to be after the token and space.
-      quill.insertEmbed(index, TOKEN_BLOT_ID, JSON.parse(tokenData));
+      quill.insertEmbed(index, TokenBlot.blotName, JSON.parse(tokenData));
       quill.insertText(index + 1, " ");
       quill.setSelection(quill.getSelection().index + 2);
     }
@@ -59,5 +61,20 @@ export default class TokenDrop {
     if (token instanceof TokenBlot) {
       this.quill.setSelection(token.offset(this.quill.scroll), 1, "user");
     }
+  }
+
+  onSelectionChange() {
+    const selectedClassName = "selected";
+    const selection = window.getSelection();
+    const tokens = this.quill.root.querySelectorAll(
+      `${TokenBlot.tagName}.${TokenBlot.className}`
+    );
+    tokens.forEach(node => {
+      if (selection.containsNode(node, true)) {
+        node.classList.add(selectedClassName);
+      } else {
+        node.classList.remove(selectedClassName);
+      }
+    });
   }
 }

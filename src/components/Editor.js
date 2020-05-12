@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Quill from "quill";
-import { TOKEN_BLOT_ID } from "../quill/TokenBlot";
+import TokenBlot from "../quill/TokenBlot";
 import { TOKEN_MODULE_NAME } from "../quill/TokenDrop";
 
 const CONFIG = {
-  formats: ["bold", "italic", TOKEN_BLOT_ID],
+  formats: ["bold", "italic", TokenBlot.blotName],
   modules: {
     toolbar: [["bold", "italic"]],
     [TOKEN_MODULE_NAME]: true

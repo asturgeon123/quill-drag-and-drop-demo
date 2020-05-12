@@ -37,20 +37,22 @@ section {
   border-radius: 0.75em;
   background-color: #07c;
   color: #fff;
-  padding: 0 10px;
+  padding: 0 8px;
   line-height: 1.5;
   white-space: nowrap;
   font-size: 13px;
   user-select: none;
+  margin-left: 1px;
+  margin-right: 1px;
 }
 
-.token::selection {
-  color: red;
+.token.selected {
+  background-color: #2ad;
 }
 
 /*
   Required for clicked token to be recognized by Parchment.
-  If a child element receives the click, Parchment is unable to find the clicked embed.
+  If a child element receives the click, Parchment is unable to determine which blot was clicked.
 */
 .token * {
   pointer-events: none;
