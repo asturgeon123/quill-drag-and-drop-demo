@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 import insertToken from "../quill/insertToken";
 import TokenBlot from "../quill/TokenBlot";
 
-const TAG = TokenBlot.tagName.toLowerCase();
-
-const Token = ({ title, slug, id, quillRef }) => {
+const Token = ({ title, slug, id, inputs }) => {
+  const [menuVisible, setMenuVisible] = useState(false);
   const tokenData = { title, slug, id };
   const onDragStart = event => {
     const text = `{{${slug}|${id}}}`;
@@ -14,23 +13,49 @@ const Token = ({ title, slug, id, quillRef }) => {
     event.dataTransfer.setData("application/vnd.placeholder.token", json);
   };
 
-  const onClick = () => {
-    const quill = quillRef.current;
+  const onClickToken = () => {
+    setMenuVisible(!menuVisible);
+  };
+
+  const onClickInput = quillRef => () => {
+    const quill = quillRef && quillRef.current;
     if (quill) {
       insertToken(quill, tokenData);
     }
   };
 
+  const onMount = node => {
+    node &&
+      node.addEventListener("focusout", event => {
+        if (!node.contains(event.relatedTarget)) {
+          setMenuVisible(false);
+        }
+      });
+  };
+
   return (
-    <TAG
-      className={TokenBlot.className}
-      draggable="true"
-      onDragStart={onDragStart}
-      onClick={onClick}
-      role="button"
-    >
-      {title}
-    </TAG>
+    <li ref={onMount}>
+      <button
+        className={TokenBlot.className}
+        draggable="true"
+        onDragStart={onDragStart}
+        onClick={onClickToken}
+        type="button"
+      >
+        {title}
+      </button>
+      {menuVisible && (
+        <ul>
+          {inputs.map(({ label, quillRef }) => (
+            <li key={label}>
+              <button onClick={onClickInput(quillRef)} type="button">
+                {label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
   );
 };
 

@@ -44,6 +44,7 @@ section {
   user-select: none;
   margin-left: 1px;
   margin-right: 1px;
+  border: none;
 }
 
 .token.selected {
@@ -63,6 +64,44 @@ section {
   padding-left: 0;
 }
 
-.token-list li + li {
+.token-list .token {
+  cursor: pointer;
+}
+
+.token-list > li {
+  position: relative;
+}
+
+.token-list > li + li {
   margin-top: 5px;
+}
+
+.token-list ul {
+  position: absolute;
+  list-style-type: none;
+  background-color: #fff;
+  border: 1px solid #666;
+  border-radius: 4px;
+  z-index: 9999;
+  padding: 0;
+  overflow: hidden;
+  top: 100%;
+  left: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+}
+
+.token-list ul > li + li {
+  border-top: 1px solid #666;
+}
+
+.token-list ul button {
+  border: none;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.token-list ul button:hover,
+.token-list ul button:active {
+  color: #07c;
 }

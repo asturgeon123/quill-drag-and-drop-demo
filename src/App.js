@@ -13,10 +13,20 @@ Quill.register(TokenBlot);
 Quill.register(`modules/${TOKEN_MODULE_NAME}`, TokenDrop);
 
 function App() {
-  const quillRef = useRef(null);
+  const quillRef1 = useRef(null);
+  const quillRef2 = useRef(null);
 
-  const [html, setHtml] = useState(
+  const inputs = [
+    { label: "Section One", quillRef: quillRef1 },
+    { label: "Section Two", quillRef: quillRef2 }
+  ];
+
+  const [html1, setHtml1] = useState(
     "<p>The <strong>quick brown fox</strong> jumps over the <em>lazy dog</em>.</p>"
+  );
+
+  const [html2, setHtml2] = useState(
+    "<p>Sphinx of <strong>black quartz</strong>, judge my <em>vow</em>.</p>"
   );
 
   return (
@@ -24,41 +34,29 @@ function App() {
       <aside>
         <h1>Tokens</h1>
         <ul className="token-list">
-          <li>
-            <Token
-              title="first name"
-              slug="first_name"
-              id="123"
-              quillRef={quillRef}
-            />
-          </li>
-          <li>
-            <Token
-              title="last name"
-              slug="last_name"
-              id="456"
-              quillRef={quillRef}
-            />
-          </li>
-          <li>
-            <Token
-              title="email address"
-              slug="email"
-              id="789"
-              quillRef={quillRef}
-            />
-          </li>
+          <Token
+            title="first name"
+            slug="first_name"
+            id="123"
+            inputs={inputs}
+          />
+          <Token title="last name" slug="last_name" id="456" inputs={inputs} />
+          <Token title="email address" slug="email" id="789" inputs={inputs} />
         </ul>
       </aside>
       <section>
-        <h1>Editor</h1>
+        <h1>Editors</h1>
         <p>
           Note: only <strong>bold</strong>, <strong>italic</strong>, and{" "}
           <strong>tokens</strong> are enabled.
         </p>
-        <Editor value={html} onChange={setHtml} quillRef={quillRef} />
-        <h1>Output</h1>
-        <div id="result">{html}</div>
+        <Editor value={html1} onChange={setHtml1} quillRef={quillRef1} />
+        <Editor value={html2} onChange={setHtml2} quillRef={quillRef2} />
+        <h1>Outputs</h1>
+        <div id="result">
+          <p>{html1}</p>
+          <p>{html2}</p>
+        </div>
       </section>
     </div>
   );
