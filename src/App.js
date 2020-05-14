@@ -12,36 +12,42 @@ import "quill/dist/quill.snow.css";
 Quill.register(TokenBlot);
 Quill.register(`modules/${TOKEN_MODULE_NAME}`, TokenDrop);
 
+const TOKENS = [
+  { title: "first name", slug: "first_name", id: "123" },
+  { title: "last name", slug: "last_name", id: "456" },
+  { title: "email address", slug: "email", id: "789" }
+];
+
+const tokensById = {};
+TOKENS.forEach(token => {
+  tokensById[token.id] = token;
+});
+
+const HTML1 =
+  "<p>The <strong>quick brown fox</strong> jumps over the <em>lazy dog, </em>{{first_name|123}}.</p>";
+const HTML2 =
+  "<p>{{first_name|123}} {{last_name|456}}, sphinx of <strong>black quartz</strong>, judge my <em>vow</em>.</p><p>{{fake_token|999}}</p>";
+
 function App() {
   const quillRef1 = useRef(null);
   const quillRef2 = useRef(null);
+
+  const [html1, setHtml1] = useState(HTML1);
+  const [html2, setHtml2] = useState(HTML2);
 
   const inputs = [
     { label: "Section One", quillRef: quillRef1 },
     { label: "Section Two", quillRef: quillRef2 }
   ];
 
-  const [html1, setHtml1] = useState(
-    "<p>The <strong>quick brown fox</strong> jumps over the <em>lazy dog</em>.</p>"
-  );
-
-  const [html2, setHtml2] = useState(
-    "<p>Sphinx of <strong>black quartz</strong>, judge my <em>vow</em>.</p>"
-  );
-
   return (
     <div id="app">
       <aside>
         <h1>Tokens</h1>
         <ul className="token-list">
-          <Token
-            title="first name"
-            slug="first_name"
-            id="123"
-            inputs={inputs}
-          />
-          <Token title="last name" slug="last_name" id="456" inputs={inputs} />
-          <Token title="email address" slug="email" id="789" inputs={inputs} />
+          {TOKENS.map(tokenProps => (
+            <Token {...tokenProps} key={tokenProps.id} inputs={inputs} />
+          ))}
         </ul>
       </aside>
       <section>
@@ -50,8 +56,18 @@ function App() {
           Note: only <strong>bold</strong>, <strong>italic</strong>, and{" "}
           <strong>tokens</strong> are enabled.
         </p>
-        <Editor value={html1} onChange={setHtml1} quillRef={quillRef1} />
-        <Editor value={html2} onChange={setHtml2} quillRef={quillRef2} />
+        <Editor
+          value={html1}
+          onChange={setHtml1}
+          quillRef={quillRef1}
+          tokensById={tokensById}
+        />
+        <Editor
+          value={html2}
+          onChange={setHtml2}
+          quillRef={quillRef2}
+          tokensById={tokensById}
+        />
         <h1>Outputs</h1>
         <div id="result">
           <p>{html1}</p>
