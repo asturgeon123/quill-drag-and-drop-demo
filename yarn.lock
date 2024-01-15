@@ -5705,6 +5705,11 @@ html-escaper@^2.0.0:
   resolved "https://registry.npmjs.org/html-escaper/-/html-escaper-2.0.0.tgz"
   integrity sha512-a4u9BeERWGu/S8JiWEAQcdrg9v4QArtP9keViQjGMdff20fBdd8waotXaNmODqBe6uZ3Nafi7K/ho4gCQHV3Ig==
 
+html-inline-script-webpack-plugin@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/html-inline-script-webpack-plugin/-/html-inline-script-webpack-plugin-3.2.1.tgz"
+  integrity sha512-PEj9Ve31BE0dva6eTD6wHMOztgIdPxF6gx3wad7ohBkCn7MXpuUvPC9t5ThMJ2NrVi1jWGBYU76DfoS+8dabRw==
+
 html-minifier-terser@^5.0.1:
   version "5.0.4"
   resolved "https://registry.npmjs.org/html-minifier-terser/-/html-minifier-terser-5.0.4.tgz"
@@ -5731,7 +5736,7 @@ html-minifier-terser@^6.0.2:
     relateurl "^0.2.7"
     terser "^5.10.0"
 
-html-webpack-plugin@^5.6.0:
+html-webpack-plugin@^5.0.0, html-webpack-plugin@^5.6.0:
   version "5.6.0"
   resolved "https://registry.npmjs.org/html-webpack-plugin/-/html-webpack-plugin-5.6.0.tgz"
   integrity sha512-iwaY4wzbe48AfKLZ/Cc8k0L+FKG6oSNRaZ8x5A/T/IVDGyXcbHncM9TdDa93wn0FsSm82FhTKW7f3vS61thXAw==

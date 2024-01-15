@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InlineSourceWebpackPlugin = require('inline-source-webpack-plugin');
+const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -10,13 +10,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html' // input html file
+      template: 'src/index.html', // input html file
     }),
-    new InlineSourceWebpackPlugin({
-      compress: false,
-      rootpath: './src',
-      noAssetMatch: 'warn',
-    })
+    new HtmlInlineScriptPlugin(),
   ],
   module: {
     rules: [
