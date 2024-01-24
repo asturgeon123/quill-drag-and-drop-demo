@@ -12,21 +12,22 @@ import "quill/dist/quill.snow.css";
 Quill.register(TokenBlot);
 Quill.register(`modules/${TOKEN_MODULE_NAME}`, TokenDrop);
 
-const TOKENS = [
+// Defined in top level index.html
+/* const TOKENS = [
   { title: "first name", slug: "first_name", id: "123" },
   { title: "last name", slug: "last_name", id: "456" },
   { title: "email address", slug: "email", id: "789" }
 ];
+*/
 
 const tokensById = {};
 TOKENS.forEach(token => {
   tokensById[token.id] = token;
 });
 
-const HTML1 =
-  "<p>The <strong>quick brown fox</strong> jumps over the <em>lazy dog, </em>{{first_name|123}}.</p>";
-const HTML2 =
-  "<p>{{first_name|123}} {{last_name|456}}, sphinx of <strong>black quartz</strong>, judge my <em>vow</em>.</p><p>{{fake_token|999}}</p>";
+// Defined in top level index.html
+//const HTML1 = "{{DEFAULT_HTML}}";
+const HTML2 = HTML1;
 
 function App() {
   const quillRef1 = useRef(null);
@@ -40,16 +41,30 @@ function App() {
     { label: "Section Two", quillRef: quillRef2 }
   ];
 
+  const handleSubmit = () => {
+    //const submitUrl = "{{SUBMIT_URL}}"; // Placeholder for the URL
+    fetch(submitUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ html1, html2 }),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+  };
+
   return (
     <div id="app">
-      <aside>
+      <div>
         <h1>Tokens</h1>
         <ul className="token-list">
           {TOKENS.map(tokenProps => (
             <Token {...tokenProps} key={tokenProps.id} inputs={inputs} />
           ))}
         </ul>
-      </aside>
+      </div>
       <section>
         <h1>Editors</h1>
         <p>
@@ -62,18 +77,21 @@ function App() {
           quillRef={quillRef1}
           tokensById={tokensById}
         />
-        <Editor
+        {/* <Editor
           value={html2}
           onChange={setHtml2}
           quillRef={quillRef2}
           tokensById={tokensById}
-        />
+        /> */}
+
         <h1>Outputs</h1>
         <div id="result">
           <p>{html1}</p>
           <p>{html2}</p>
         </div>
+        <button onClick={handleSubmit}>Submit</button>
       </section>
+      
     </div>
   );
 }
