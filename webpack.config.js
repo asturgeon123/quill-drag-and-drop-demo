@@ -10,7 +10,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html', // input html file
+      template: 'src/index.html', // input html file,
+      inject: 'body' // Inject scripts at the bottom of the body tag
     }),
     new HtmlInlineScriptPlugin(),
   ],
