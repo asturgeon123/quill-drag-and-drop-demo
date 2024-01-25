@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import Quill from "quill";
 import TokenBlot from "../quill/TokenBlot";
-import { TOKEN_MODULE_NAME } from "../quill/TokenDrop";
+//import { TOKEN_MODULE_NAME } from "../quill/TokenDrop";
+
+import { useDrop } from 'react-dnd';
+import insertToken from "../quill/insertToken";
 
 const CONFIG = {
   formats: ["bold", "italic", TokenBlot.blotName],
   modules: {
     toolbar: [["bold", "italic"]],
-    [TOKEN_MODULE_NAME]: true
+    //[TOKEN_MODULE_NAME]: true
   },
   theme: "snow"
 };
@@ -42,6 +45,25 @@ const tokensToHtml = (tokenizedString, tokensById) => {
 const Editor = ({ value, onChange, quillRef, tokensById }) => {
   const [editor, setEditor] = useState(null);
 
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
+    accept: 'TOKEN',
+    drop: (item, monitor) => {
+      const quill = quillRef.current;
+      if (quill) {
+        insertToken(quill, item); // 'item' contains id, title, slug
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  }));
+
+  React.useEffect(() => {
+    if (isOver) {
+      console.log('A token is over the drop zone');
+    }
+  }, [isOver]);
+
   const onValueChange = html => onChange(htmlToTokens(html));
 
   // When the containing div is mounted, initialize the Quill instance.
@@ -57,7 +79,7 @@ const Editor = ({ value, onChange, quillRef, tokensById }) => {
     }
   };
 
-  return <div ref={onMount} style={{ height: 200 }} />;
+  return <div ref={node => drop(onMount(node))} style={{ height: 200 }} />;
 };
 
 export default Editor;

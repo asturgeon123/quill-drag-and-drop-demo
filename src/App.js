@@ -4,21 +4,21 @@ import Editor from "./components/Editor";
 
 import Quill from "quill";
 import TokenBlot from "./quill/TokenBlot";
-import TokenDrop, { TOKEN_MODULE_NAME } from "./quill/TokenDrop";
+//import TokenDrop, { TOKEN_MODULE_NAME } from "./quill/TokenDrop";
 import "quill/dist/quill.snow.css";
 
 // Regisger the token embed and the drap-drop module with the Quill library,
 // so that they are available to any Quill instance.
 Quill.register(TokenBlot);
-Quill.register(`modules/${TOKEN_MODULE_NAME}`, TokenDrop);
+//Quill.register(`modules/${TOKEN_MODULE_NAME}`, TokenDrop);
 
 // Defined in top level index.html
-/* const TOKENS = [
+ const TOKENS = [
   { title: "first name", slug: "first_name", id: "123" },
   { title: "last name", slug: "last_name", id: "456" },
   { title: "email address", slug: "email", id: "789" }
 ];
-*/
+
 
 const tokensById = {};
 TOKENS.forEach(token => {
@@ -26,7 +26,7 @@ TOKENS.forEach(token => {
 });
 
 // Defined in top level index.html
-//const HTML1 = "{{DEFAULT_HTML}}";
+const HTML1 = "{{DEFAULT_HTML}}";
 const HTML2 = HTML1;
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
   ];
 
   const handleSubmit = () => {
-    //const submitUrl = "{{SUBMIT_URL}}"; // Placeholder for the URL
+    const submitUrl = "{{SUBMIT_URL}}"; // Placeholder for the URL
     fetch(submitUrl, {
       method: 'POST',
       headers: {
